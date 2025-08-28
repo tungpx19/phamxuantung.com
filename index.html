@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK</title>
+  <meta name="description" content="Hệ thống loa thông báo chuyển khoản dùng ESP32 + MAX98357 + OLED. Nhận webhook, phát âm báo và hiển thị số tiền. Tối ưu cho quầy thanh toán, quán cà phê, cửa hàng.">
+  <meta name="author" content="Phạm Xuân Tùng">
+  <meta property="og:title" content="Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK">
+  <meta property="og:description" content="Nhận sự kiện chuyển khoản qua WiFi, phát âm thanh thông báo và hiển thị số tiền trên OLED.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.phamxuantung.com/">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK",
+    "author": {"@type":"Person", "name":"Phạm Xuân Tùng"},
+    "about": ["ESP32", "I2S", "MAX98357", "OLED 128x64", "Webhook"],
+    "datePublished": "2025-08-28",
+    "inLanguage": "vi",
+    "publisher": {"@type":"Organization","name":"phamxuantung.com"}
+  }
+  </script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🔊</div>
+      <div>
+        <h1>Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK</h1>
+        <p class="tagline">Thông báo tức thì • Rõ ràng • Chi phí thấp</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#tong-quan">Tổng quan</a>
+      <a href="#chuc-nang">Chức năng</a>
+      <a href="#so-do">Sơ đồ & Nối dây</a>
+      <a href="#linh-kien">Linh kiện</a>
+      <a href="#demo">Demo</a>
+      <a href="#huong-dan">Hướng dẫn</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h2>Không bỏ lỡ chuyển khoản nào tại quầy</h2>
+      <p>ESP32 kết nối WiFi nhận webhook và phát âm báo qua MAX98357, đồng thời hiển thị số tiền trên OLED. Phù hợp quán cà phê, cửa hàng nhỏ, hộ kinh doanh.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#demo">Dùng thử demo</a>
+        <a class="btn" href="#ma-nguon">Xem mã nguồn</a>
+      </div>
+      <p class="micro">Tên miền dự kiến: <strong>www.phamxuantung.com</strong></p>
+    </div>
+    <div class="hero-card" role="img" aria-label="Minh họa ESP32, MAX98357, OLED">
+      <div class="chip">ESP32</div>
+      <div class="amp">MAX98357</div>
+      <div class="oled">OLED 128×64</div>
+      <div class="speaker">🔊</div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section id="tong-quan" class="section container">
+    <h3>1) Đặt vấn đề & Mục tiêu</h3>
+    <p>Nhu cầu nhận thông báo chuyển khoản (MoMo/Banking/ví điện tử) nhanh, rõ ràng ngày càng phổ biến. Điện thoại cá nhân dễ bỏ lỡ trong môi trường ồn ào. Giải pháp là bộ DIY dùng ESP32 nhận sự kiện và phát âm báo, đồng thời hiển thị số tiền trên OLED.</p>
+    <ul class="check">
+      <li>Hoạt động độc lập, dễ dùng</li>
+      <li>Nhận sự kiện qua Webhook/Blynk/IFTTT</li>
+      <li>Âm báo rõ ràng, hiển thị số tiền/nguồn thanh toán</li>
+      <li>An toàn, gọn nhẹ, chi phí thấp</li>
+      <li>Mở rộng linh hoạt (âm báo, nhiều nguồn, OTA)</li>
+    </ul>
+  </section>
+
+  <section id="chuc-nang" class="section alt">
+    <div class="container">
+      <h3>2) Chức năng chính</h3>
+      <div class="cards">
+        <div class="card">
+          <h4>Kết nối WiFi tự động</h4>
+          <p>Tự khởi động lại khi mất kết nối, hiển thị trạng thái mạng.</p>
+        </div>
+        <div class="card">
+          <h4>Nhận webhook</h4>
+          <p>Parse payload chứa số tiền, nguồn thanh toán, nội dung.</p>
+        </div>
+        <div class="card">
+          <h4>Phát âm báo</h4>
+          <p>I2S → MAX98357 → loa 1W. Tùy biến nhạc chuông/giọng nói.</p>
+        </div>
+        <div class="card">
+          <h4>OLED 128×64</h4>
+          <p>Hiển thị số tiền, thời gian, thông báo gần nhất.</p>
+        </div>
+        <div class="card">
+          <h4>Nút nhấn</h4>
+          <p>Phát lại thông báo gần nhất hoặc tắt tiếng tạm thời.</p>
+        </div>
+        <div class="card">
+          <h4>Ghi log phiên</h4>
+          <p>Đếm giao dịch và tổng tiền theo phiên (tuỳ chọn).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="so-do" class="section container">
+    <h3>3) Kiến trúc & Nối dây</h3>
+    <div class="two-col">
+      <div>
+        <h4>Luồng hoạt động</h4>
+        <ol>
+          <li>Điện thoại/Server gửi sự kiện “đã nhận chuyển khoản”.</li>
+          <li>ESP32 nhận, xác thực, parse số tiền.</li>
+          <li>Hiển thị lên OLED, phát âm báo qua I2S.</li>
+          <li>Buzzer: báo nhanh hoặc báo lỗi kết nối.</li>
+        </ol>
+        <h4>Chân kết nối (tham khảo)</h4>
+        <ul class="mono">
+          <li>OLED I2C: SDA ↔ GPIO21, SCL ↔ GPIO22</li>
+          <li>I2S: BCLK ↔ GPIO26, LRC(WS) ↔ GPIO25, DIN ↔ GPIO27</li>
+          <li>MAX98357 OUT± → Loa 1W 8Ω</li>
+          <li>Buzzer 5V qua transistor, có điện trở hạn dòng</li>
+          <li>Tụ 1000µF/16V đặt gần đường 5V</li>
+        </ul>
+      </div>
+      <div class="diagram" aria-label="Sơ đồ minh hoạ">
+        <div class="node esp">ESP32</div>
+        <div class="node oled">OLED</div>
+        <div class="node i2s">I2S</div>
+        <div class="node amp">MAX98357</div>
+        <div class="node spk">Loa 1W</div>
+        <div class="wire w1"></div>
+        <div class="wire w2"></div>
+        <div class="wire w3"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="linh-kien" class="section alt">
+    <div class="container">
+      <h3>4) Danh sách linh kiện (BOM)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Linh kiện</th><th>Ghi chú</th><th>Số lượng</th></tr></thead>
+          <tbody>
+            <tr><td>ESP32 ESP-WROOM-32S</td><td>WiFi + MCU</td><td>1</td></tr>
+            <tr><td>OLED 1.3&quot; 128×64 I2C</td><td>3.3V</td><td>1</td></tr>
+            <tr><td>MAX98357 I2S Class D</td><td>5V</td><td>1</td></tr>
+            <tr><td>Loa 1W 8Ω</td><td>50mm</td><td>1</td></tr>
+            <tr><td>Tụ 1000µF 16V</td><td>Lọc nguồn 5V</td><td>1</td></tr>
+            <tr><td>Cáp USB A–Micro</td><td>Cấp nguồn ≥2A</td><td>1</td></tr>
+            <tr><td>Buzzer 5V</td><td>Bíp cảnh báo</td><td>1</td></tr>
+            <tr><td>Dây 40P female–female</td><td>Đấu nối</td><td>1 bộ</td></tr>
+            <tr><td>Gen co nhiệt</td><td>Gọn & an toàn</td><td>Vừa đủ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="section container">
+    <h3>5) Demo giả lập Webhook (nhân hoá)</h3>
+    <p><strong>Loa BLK</strong> – trợ lý nhỏ của bạn – sẽ “nói” khi có chuyển khoản đến. Hãy nhập số tiền để thử:</p>
+    <form id="demo-form" class="demo-form" autocomplete="off">
+      <label for="amount">Số tiền (VND)</label>
+      <input id="amount" name="amount" inputmode="numeric" placeholder="VD: 150000" required>
+      <label for="source">Nguồn thanh toán</label>
+      <select id="source" name="source">
+        <option>Bank A</option>
+        <option>MoMo</option>
+        <option>ZaloPay</option>
+      </select>
+      <label for="note">Nội dung</label>
+      <input id="note" name="note" placeholder="Khách A">
+      <button class="btn primary" type="submit">Gửi sự kiện</button>
+      <button class="btn" id="replay" type="button" disabled>Phát lại</button>
+    </form>
+
+    <div class="announce">
+      <div class="oled-sim">
+        <div class="row"><span>Trạng thái WiFi:</span> <strong id="wifi">Đã kết nối</strong></div>
+        <div class="row"><span>Thông báo gần nhất:</span> <strong id="last-msg">—</strong></div>
+        <div class="row"><span>Tổng phiên:</span> <strong id="session-total">0 ₫</strong></div>
+        <div class="row"><span>Số giao dịch:</span> <strong id="session-count">0</strong></div>
+      </div>
+      <div class="mascot" aria-live="polite">
+        <div class="face">^(^◕‿◕^)^</div>
+        <p id="mascot-line">Chào bạn! Mình là Loa BLK, sẵn sàng báo chuyển khoản ✨</p>
+        <button class="btn" id="mute-toggle" type="button" aria-pressed="false">Tắt tiếng</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="huong-dan" class="section alt">
+    <div class="container">
+      <h3>6) Hướng dẫn lắp ráp nhanh</h3>
+      <ol>
+        <li>Hàn header cho ESP32, MAX98357, OLED.</li>
+        <li>Kết nối dây theo sơ đồ ở trên, gắn tụ 1000µF gần nguồn 5V.</li>
+        <li>Cấp nguồn 5V ≥2A, kiểm tra OLED hiển thị.</li>
+        <li>Nạp firmware mẫu: kết nối WiFi và chờ webhook.</li>
+        <li>Gửi thử payload để kiểm tra âm thanh và hiển thị số tiền.</li>
+        <li>Gom dây bằng gen co nhiệt, lắp vào hộp.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq" class="section container">
+    <h3>7) FAQ</h3>
+    <details>
+      <summary>Webhook gửi payload như nào?</summary>
+      <pre><code>{ "amount": 150000, "note": "Khach A", "source": "BankX" }</code></pre>
+    </details>
+    <details>
+      <summary>Không có MAX98357 thì sao?</summary>
+      <p>Có thể bắt đầu bằng buzzer 5V để phát bíp báo nhanh, sau đó nâng cấp lên I2S.</p>
+    </details>
+    <details>
+      <summary>Có hỗ trợ OTA không?</summary>
+      <p>Có thể thêm OTA sau (ArduinoOTA hoặc ESP32HTTPUpdateServer).</p>
+    </details>
+  </section>
+
+  <section id="ma-nguon" class="section alt">
+    <div class="container">
+      <h3>8) Mã nguồn</h3>
+      <p>Mã HTML/CSS/JS của trang này được phát hành theo giấy phép MIT. Bạn có thể chỉnh sửa tự do cho mục đích cá nhân.</p>
+      <div class="code-links">
+        <a class="btn" href="index.html" download>index.html</a>
+        <a class="btn" href="style.css" download>style.css</a>
+        <a class="btn" href="script.js" download>script.js</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <strong>phamxuantung.com</strong> • © 2025
+      <div class="micro">Dựa trên đề tài: Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK</div>
+    </div>
+    <div class="footer-links">
+      <a href="#tong-quan">Tổng quan</a>
+      <a href="#huong-dan">Hướng dẫn</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
