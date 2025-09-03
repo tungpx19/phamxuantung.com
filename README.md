@@ -1,4 +1,4 @@
-#ESP32 BLK Transfer Notifier
+# phamxuantung.com — ESP32 BLK Transfer Notifier
 
 Website tĩnh (HTML/CSS/JS) giới thiệu **Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK** và có demo giả lập webhook, giọng nói (Web Speech API).
 
@@ -20,7 +20,7 @@ Website tĩnh (HTML/CSS/JS) giới thiệu **Bộ DIY Loa Thông Báo Chuyển K
 - Kéo thả thư mục này lên Netlify, hoặc `vercel deploy` thư mục.
 - Project tĩnh, không cần build step.
 
-##
+## Tên miền: www.phamxuantung.com
 - Mua domain tại nhà đăng ký (tùy chọn).
 - Trỏ **A record** tới IP của hosting (nếu dùng shared/VPS) **hoặc** dùng **CNAME** `www` → domain do Netlify/Vercel/GitHub cung cấp.
 - Bật HTTPS (Let’s Encrypt tự động với Netlify/Vercel).

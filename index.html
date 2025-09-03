@@ -10,6 +10,7 @@
   <meta property="og:description" content="Nhận sự kiện chuyển khoản qua WiFi, phát âm thanh thông báo và hiển thị số tiền trên OLED.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.phamxuantung.com/">
+  <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -25,293 +26,6 @@
     "publisher": {"@type":"Organization","name":"phamxuantung.com"}
   }
   </script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      color: #333;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    .site-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 1.5rem 0;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .logo {
-      font-size: 2.5rem;
-      animation: pulse 2s infinite;
-    }
-    h1 {
-      font-size: 1.5rem;
-    }
-    .tagline {
-      color: #e0e0e0;
-    }
-    .nav {
-      display: flex;
-      gap: 2rem;
-      margin-top: 1rem;
-    }
-    .nav a {
-      color: white;
-      text-decoration: none;
-      transition: opacity 0.3s;
-    }
-    .nav a:hover { opacity: 0.8; }
-    .hero {
-      padding: 3rem 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .cta-row {
-      display: flex;
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: all 0.3s;
-    }
-    .btn.primary {
-      background: #ff6b6b;
-      color: white;
-    }
-    .btn.primary:hover {
-      background: #ff5252;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-    .micro {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-    .hero-card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      border-radius: 10px;
-      position: relative;
-    }
-    .chip, .amp, .oled, .speaker {
-      position: absolute;
-      color: white;
-      font-weight: bold;
-      animation: fadeIn 1s ease-out;
-    }
-    .chip { top: 10%; left: 10%; }
-    .amp { top: 40%; right: 10%; }
-    .oled { bottom: 30%; left: 20%; }
-    .speaker { bottom: 10%; right: 20%; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    section { padding: 3rem 0; }
-    .section.alt { background: #f5f5f5; }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .card:hover { transform: translateY(-5px); }
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-    }
-    .diagram {
-      background: #f9f9f9;
-      height: 300px;
-      position: relative;
-      border-radius: 8px;
-    }
-    .node {
-      position: absolute;
-      background: #333;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-    }
-    .node.esp { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-    .node.oled { top: 20%; left: 20%; }
-    .node.i2s { top: 80%; left: 20%; }
-    .node.amp { bottom: 20%; right: 20%; }
-    .node.spk { top: 80%; left: 80%; }
-    .wire {
-      position: absolute;
-      height: 2px;
-      background: #333;
-    }
-    .w1 { top: 44%; left: 0; width: 100%; }
-    .w2 { top: 43%; left: 50%; width: 100%; transform: rotate(45deg); }
-    .w3 { top: 40%; left: 60%; width: 100%; transform: rotate(-45deg); }
-    .table-wrap {
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    td, th {
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-    }
-    th { background: #f5f5f5; }
-    .demo-form {
-      max-width: 400px;
-      margin-bottom: 2rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-bottom: 1rem;
-    }
-    textarea { resize: vertical; }
-    .announce {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-    .oled-sim {
-      background: #1a1a1a;
-      color: #00ff00;
-      padding: 1rem;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.9rem;
-    }
-    .row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-    }
-    .mascot {
-      background: #ffeaa7;
-      padding: 1.5rem;
-      border-radius: 50% 50% 50% 0;
-      text-align: center;
-      max-width: 250px;
-    }
-    .face {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .check {
-      list-style: none;
-      padding: 0;
-    }
-    .check li {
-      padding-left: 1.5rem;
-      position: relative;
-    }
-    .check li:before {
-      content: '✓';
-      color: #4ade80;
-      position: absolute;
-      left: 0;
-    }
-    .mono {
-      font-family: monospace;
-      background: #f5f5f5;
-      padding: 1rem;
-      border-radius: 5px;
-    }
-    ol { padding-left: 1.5rem; }
-    dl {
-      display: grid;
-      gap: 1rem;
-    }
-    dt {
-      font-weight: bold;
-      cursor: pointer;
-    }
-    dd {
-      margin-left: 1rem;
-    }
-    code {
-      background: #f5f5f5;
-      padding: 0.25rem 0.5rem;
-      border-radius: 3px;
-      font-family: monospace;
-    }
-    pre code {
-      display: block;
-      padding: 1rem;
-    }
-    .code-links {
-      display: flex;
-      gap: 1rem;
-    }
-    .site-footer {
-      background: #333;
-      color: white;
-      padding: 2rem 0;
-    }
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-    }
-    @media (max-width: 768px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-      .announce {
-        grid-template-columns: 1fr;
-      }
-      .nav {
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-      .cta-row {
-        flex-direction: column;
-      }
-      .footer-links {
-        flex-direction: column;
-      }
-    }
-  </style>
 </head>
 <body>
 <header class="site-header">
@@ -344,7 +58,7 @@
         <a class="btn primary" href="#demo">Dùng thử demo</a>
         <a class="btn" href="#ma-nguon">Xem mã nguồn</a>
       </div>
-      <p class="micro"> <strong>www.phamxuantung.com</strong></p>
+      <p class="micro">Tên miền dự kiến: <strong>www.phamxuantung.com</strong></p>
     </div>
     <div class="hero-card" role="img" aria-label="Minh họa ESP32, MAX98357, OLED">
       <div class="chip">ESP32</div>
@@ -406,7 +120,7 @@
       <div>
         <h4>Luồng hoạt động</h4>
         <ol>
-          <li>Điện thoại/Server gửi sự kiện "đã nhận chuyển khoản".</li>
+          <li>Điện thoại/Server gửi sự kiện “đã nhận chuyển khoản”.</li>
           <li>ESP32 nhận, xác thực, parse số tiền.</li>
           <li>Hiển thị lên OLED, phát âm báo qua I2S.</li>
           <li>Buzzer: báo nhanh hoặc báo lỗi kết nối.</li>
@@ -438,59 +152,17 @@
       <h3>4) Danh sách linh kiện (BOM)</h3>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Linh kiện</th>
-              <th>Ghi chú</th>
-              <th>Số lượng</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Linh kiện</th><th>Ghi chú</th><th>Số lượng</th></tr></thead>
           <tbody>
-            <tr>
-              <td>ESP32 ESP-WROOM-32S</td>
-              <td>WiFi + MCU</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>OLED 1.3" 128×64 I2C</td>
-              <td>3.3V</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>MAX98357 I2S Class D</td>
-              <td>5V</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Loa 1W 8Ω</td>
-              <td>50mm</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Tụ 1000µF 16V</td>
-              <td>Lọc nguồn 5V</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Cáp USB A–Micro</td>
-              <td>Cấp nguồn ≥2A</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Buzzer 5V</td>
-              <td>Bíp cảnh báo</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Dây 40P female–female</td>
-              <td>Đấu nối</td>
-              <td>1 bộ</td>
-            </tr>
-            <tr>
-              <td>Gen co nhiệt</td>
-              <td>Gọn & an toàn</td>
-              <td>Vừa đủ</td>
-            </tr>
+            <tr><td>ESP32 ESP-WROOM-32S</td><td>WiFi + MCU</td><td>1</td></tr>
+            <tr><td>OLED 1.3&quot; 128×64 I2C</td><td>3.3V</td><td>1</td></tr>
+            <tr><td>MAX98357 I2S Class D</td><td>5V</td><td>1</td></tr>
+            <tr><td>Loa 1W 8Ω</td><td>50mm</td><td>1</td></tr>
+            <tr><td>Tụ 1000µF 16V</td><td>Lọc nguồn 5V</td><td>1</td></tr>
+            <tr><td>Cáp USB A–Micro</td><td>Cấp nguồn ≥2A</td><td>1</td></tr>
+            <tr><td>Buzzer 5V</td><td>Bíp cảnh báo</td><td>1</td></tr>
+            <tr><td>Dây 40P female–female</td><td>Đấu nối</td><td>1 bộ</td></tr>
+            <tr><td>Gen co nhiệt</td><td>Gọn & an toàn</td><td>Vừa đủ</td></tr>
           </tbody>
         </table>
       </div>
@@ -499,7 +171,7 @@
 
   <section id="demo" class="section container">
     <h3>5) Demo giả lập Webhook (nhân hoá)</h3>
-    <p><strong>Loa BLK</strong> – trợ lý nhỏ của bạn – sẽ "nói" khi có chuyển khoản đến. Hãy nhập số tiền để thử:</p>
+    <p><strong>Loa BLK</strong> – trợ lý nhỏ của bạn – sẽ “nói” khi có chuyển khoản đến. Hãy nhập số tiền để thử:</p>
     <form id="demo-form" class="demo-form" autocomplete="off">
       <label for="amount">Số tiền (VND)</label>
       <input id="amount" name="amount" inputmode="numeric" placeholder="VD: 150000" required>
@@ -563,7 +235,7 @@
   <section id="ma-nguon" class="section alt">
     <div class="container">
       <h3>8) Mã nguồn</h3>
-      <p>Mã HTML/CSS/JS của trang này được phát hành theo giấy phép MIT.</p>
+      <p>Mã HTML/CSS/JS của trang này được phát hành theo giấy phép MIT. Bạn có thể chỉnh sửa tự do cho mục đích cá nhân.</p>
       <div class="code-links">
         <a class="btn" href="index.html" download>index.html</a>
         <a class="btn" href="style.css" download>style.css</a>
@@ -587,75 +259,6 @@
   </div>
 </footer>
 
-<script>
-  document.getElementById('demo-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var amount = document.getElementById('amount').value;
-    var source = document.getElementById('source').value;
-    var note = document.getElementById('note').value;
-    var mascotLine = document.getElementById('mascot-line');
-    var wifiEl = document.getElementById('wifi');
-    var lastMsgEl = document.getElementById('last-msg');
-    var sessionTotalEl = document.getElementById('session-total');
-    var sessionCountEl = document.getElementById('session-count');
-    
-    if (amount) {
-      amount = parseInt(amount).toLocaleString();
-      mascotLine.textContent = `Oke! Có chuyển khoản ${amount} VNĐ từ ${source}. ${note ? 'Nội dung: ' + note : ''}`;
-      lastMsgEl.textContent = `${amount} VNĐ - ${source}`;
-      wifiEl.textContent = 'Đã kết nối';
-      if (sessionTotalEl.textContent === '0 ₫') {
-        sessionTotalEl.textContent = `${amount} VNĐ`;
-        sessionCountEl.textContent = '1';
-      } else {
-        var total = parseInt(sessionTotalEl.textContent.replace(/[₫,\s]/g, ''));
-        var count = parseInt(sessionCountEl.textContent);
-        total += parseInt(amount.replace(/,/g, ''));
-        count++;
-        sessionTotalEl.textContent = total.toLocaleString() + ' ₫';
-        sessionCountEl.textContent = count;
-      }
-      document.getElementById('replay').disabled = false;
-      setTimeout(function() {
-        mascotLine.textContent = 'Chào bạn! Mình là Loa BLK, sẵn sàng báo chuyển khoản ✨';
-      }, 5000);
-    }
-  });
-
-  document.getElementById('replay').addEventListener('click', function() {
-    var mascotLine = document.getElementById('mascot-line');
-    var lastMsg = document.getElementById('last-msg').textContent;
-    mascotLine.textContent = `Phát lại: ${lastMsg}`;
-    setTimeout(function() {
-      mascotLine.textContent = 'Chào bạn! Mình là Loa BLK, sẵn sàng báo chuyển khoản ✨';
-    }, 3000);
-  });
-
-  document.getElementById('mute-toggle').addEventListener('click', function() {
-    var mascotLine = document.getElementById('mascot-line');
-    var muted = this.getAttribute('aria-pressed') === 'false';
-    this.setAttribute('aria-pressed', muted ? 'true' : 'false');
-    if (muted) {
-      mascotLine.textContent = 'Shh... Tắt tiếng rồi! Nhớ bật lại nhé.';
-      this.textContent = 'Bật tiếng';
-    } else {
-      mascotLine.textContent = 'Chào bạn! Mình là Loa BLK, sẵn sàng báo chuyển khoản ✨';
-      this.textContent = 'Tắt tiếng';
-    }
-  });
-
-  document.querySelectorAll('.nav a[href^="#"]').forEach(function(link) {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      var id = this.getAttribute('href').substring(1);
-      var section = document.getElementById(id);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
-</content>
-</create_file>
