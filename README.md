@@ -1,4 +1,4 @@
-# phamxuantung.com — ESP32 BLK Transfer Notifier
+#ESP32 BLK Transfer Notifier
 
 Website tĩnh (HTML/CSS/JS) giới thiệu **Bộ DIY Loa Thông Báo Chuyển Khoản ESP32 BLK** và có demo giả lập webhook, giọng nói (Web Speech API).
 
