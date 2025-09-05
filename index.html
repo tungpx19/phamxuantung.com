@@ -169,6 +169,87 @@
     </div>
   </section>
 
+  
+  <section id="so-do-nguyen-ly" class="section container">
+    <h3>6) Sơ đồ nguyên lý & Luồng hoạt động</h3>
+    <p>Sơ đồ nguyên lý của hệ thống Loa Thông Báo Chuyển Khoản ESP32 BLK:</p>
+    <img src="BLKLab_SoDoNguyenLy.PNG" alt="Sơ đồ nguyên lý ESP32 BLK" style="max-width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.1);box-shadow:0 0 20px rgba(0,0,0,.4)">
+    <p class="micro">ESP32 ↔ MAX98357 ↔ OLED ↔ Loa/Buzzer, nhận dữ liệu từ SePay → Google Sheets → ESP32.</p>
+  </section>
+
+  <section id="apps-script" class="section alt">
+    <div class="container">
+      <h3>7) Google Apps Script</h3>
+      <p>Để ESP32 có thể đọc dữ liệu từ Google Sheets, cần thêm đoạn code sau vào <strong>Apps Script</strong> của bảng tính:</p>
+      <pre style="background:#0f172a;padding:16px;border-radius:12px;overflow:auto"><code>// Hàm chính doPost (nhận dữ liệu)
+function doPost(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('MainSheet');
+  var postData = JSON.parse(e.postData.contents);
+  sheet.appendRow([postData.gateway, postData.transactionDate, postData.accountNumber, postData.subAccount,
+                   postData.code, postData.content, postData.transferType, postData.transferAmount,
+                   postData.referenceCode, postData.accumulated]);
+}
+
+// Hàm doGet (cho ESP32 đọc dữ liệu)
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("MainSheet");
+  var lastRow = sheet.getLastRow();
+  if (lastRow <= 1) return ContentService.createTextOutput("Không có dữ liệu.");
+  var numberOfRows = Math.min(3, lastRow - 1);
+  var startRow = lastRow - numberOfRows + 1;
+  var data = sheet.getRange(startRow, 1, numberOfRows, 10).getValues();
+  return ContentService.createTextOutput(JSON.stringify(data));
+}</code></pre>
+      <p>Bản đầy đủ code xem tại: <a href="BLKLab_CodeAppScript.txt" download>BLKLab_CodeAppScript.txt</a></p>
+    </div>
+  </section>
+
+  <section id="huong-dan-cau-hinh" class="section container">
+    <h3>8) Hướng dẫn cấu hình SePay & ESP32</h3>
+    <div class="accordion">
+      <details open>
+        <summary>1. Đăng ký SePay</summary>
+        <p>Truy cập <a href="https://docs.sepay.vn/dang-ky-sepay.html" target="_blank">docs.sepay.vn/dang-ky-sepay.html</a> và tạo tài khoản.</p>
+      </details>
+      <details>
+        <summary>2. Thêm tài khoản ngân hàng (VA)</summary>
+        <p>Vào <a href="https://docs.sepay.vn/them-tai-khoan-ngan-hang.html" target="_blank">docs.sepay.vn/them-tai-khoan-ngan-hang.html</a>, tạo tài khoản VA cho chi nhánh/cửa hàng.</p>
+      </details>
+      <details>
+        <summary>3. Tạo Google Sheet & Apps Script</summary>
+        <p>Tạo bản sao Google Sheet mẫu tại <a href="https://docs.google.com/spreadsheets/d/1T3aG8vLgMKgU824NAhA9kIy1ipokOiZoxmdf6hbDNBg/edit?usp=drive_link" target="_blank">link này</a>. Sau đó thêm code Apps Script ở trên và triển khai.</p>
+      </details>
+      <details>
+        <summary>4. Tích hợp Google Sheet vào SePay</summary>
+        <p>Vào <a href="https://my.sepay.vn/googlesheets" target="_blank">my.sepay.vn/googlesheets</a>, kết nối Google Sheet với tài khoản SePay.</p>
+      </details>
+      <details>
+        <summary>5. Cấu hình ESP32</summary>
+        <p>ESP32 khởi động ở chế độ AP Mode, kết nối WiFi ESP32TingBox, truy cập <code>192.168.4.1</code> để nhập WiFi và Deployment ID.</p>
+      </details>
+      <details>
+        <summary>6. Kiểm tra OLED</summary>
+        <p>OLED hiển thị 3 giao dịch gần nhất, với ký hiệu tam giác thể hiện trạng thái WiFi/Google Sheets.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="thiet-ke-3d" class="section alt">
+    <div class="container">
+      <h3>9) Thiết kế cơ khí 3D</h3>
+      <p>Bộ vỏ và lắp ráp được thiết kế bằng SolidWorks, kèm file STL để in 3D:</p>
+      <ul>
+        <li><a href="Assem1.SLDASM" download>Assem1.SLDASM (Assembly)</a></li>
+        <li><a href="Part1.SLDPRT" download>Part1.SLDPRT</a> | <a href="Part1.STL" download>Part1.STL</a></li>
+        <li><a href="Part2.SLDPRT" download>Part2.SLDPRT</a> | <a href="Part2.STL" download>Part2.STL</a></li>
+        <li><a href="Part3.SLDPRT" download>Part3.SLDPRT</a> | <a href="Part3.STL" download>Part3.STL</a></li>
+      </ul>
+      <div id="viewer3d" style="width:100%;height:400px;background:#111;border-radius:12px"></div>
+      <p class="micro">Dùng chuột để xoay/zoom mô hình (Three.js viewer).</p>
+    </div>
+  </section>
+
   <section id="demo" class="section container">
     <h3>5) Demo giả lập Webhook (nhân hoá)</h3>
     <p><strong>Loa BLK</strong> – trợ lý nhỏ của bạn – sẽ “nói” khi có chuyển khoản đến. Hãy nhập số tiền để thử:</p>
