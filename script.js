@@ -93,3 +93,17 @@
     wifi.style.opacity = wifi.textContent==='Đã kết nối' ? '1' : '0.8';
   }, 5000);
 })();
+// Lightbox handler
+document.querySelectorAll('.lightbox-img').forEach(img => {
+  img.addEventListener('click', () => {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.createElement('img');
+    lightboxImg.src = img.src;
+    lightbox.innerHTML = '';
+    lightbox.appendChild(lightboxImg);
+    lightbox.style.display = 'flex';
+  });
+});
+document.getElementById('lightbox').addEventListener('click', () => {
+  document.getElementById('lightbox').style.display = 'none';
+});
